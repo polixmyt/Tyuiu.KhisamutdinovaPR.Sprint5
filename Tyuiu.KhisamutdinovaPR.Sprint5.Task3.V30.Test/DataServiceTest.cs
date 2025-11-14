@@ -1,8 +1,4 @@
-﻿// Author: Хисамутдинова Полина
-// Project: Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
-// Description: Тест бинарной записи результата (float).
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
@@ -13,7 +9,7 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Test
     public class DataServiceTest
     {
         [TestMethod]
-        public void CheckBinaryFloatWrite()
+        public void CheckSaveToFileTextData()
         {
             DataService ds = new DataService();
             int x = 3;
@@ -25,15 +21,14 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Test
 
             Assert.IsTrue(File.Exists(path), "Файл не создан.");
 
-            // Читаем как float
-            float actual;
+            float fromFile;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (BinaryReader br = new BinaryReader(fs))
             {
-                actual = br.ReadSingle();
+                fromFile = br.ReadSingle();
             }
 
-            Assert.AreEqual((float)expected, actual, 0.0001f, "Ошибка: значение не совпадает.");
+            Assert.AreEqual((float)expected, fromFile, 0.0001f);
         }
     }
 }

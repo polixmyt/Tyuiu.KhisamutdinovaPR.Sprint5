@@ -1,8 +1,4 @@
-﻿// Author: Хисамутдинова Полина
-// Project: Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
-// Description: Вызов библиотеки, вывод результата из бинарного файла.
-
-using System;
+﻿using System;
 using System.IO;
 using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
 
@@ -19,7 +15,7 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
 
             string path = ds.SaveToFileTextData(x);
 
-            // Чтение значения из бинарного файла (Single)
+            // читаем значение из бинарного файла
             float result;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (BinaryReader br = new BinaryReader(fs))
@@ -31,7 +27,8 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
             Console.WriteLine("Выражение: y = (x^3 - 1) / (4 * x^2)");
             Console.WriteLine($"x = {x}");
             Console.WriteLine("------------------------------------");
-            Console.WriteLine($"Путь к бинарному файлу:\n{path}");
+            Console.WriteLine("Путь к бинарному файлу:");
+            Console.WriteLine(path);
             Console.WriteLine($"Значение y = {result:F3}");
             Console.WriteLine("------------------------------------");
             Console.WriteLine("Нажмите любую клавишу для выхода...");
