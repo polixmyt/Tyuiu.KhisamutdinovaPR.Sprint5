@@ -1,9 +1,6 @@
-﻿// Author: Хисамутдинова Полина
-// Project: Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
-// Description: Тест метода SaveToFileTextData для записи в бинарный файл.
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Globalization;
 using System.IO;
 using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
 
@@ -13,30 +10,28 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Test
     public class DataServiceTest
     {
         [TestMethod]
-        public void SaveToFileTextData_CreatesBinaryFile_WithCorrectValue()
+        public void SaveToFileTextData_BinaryFileContainsRoundedString()
         {
-            // arrange
             int x = 3;
             DataService ds = new DataService();
 
-            // ожидаемое значение
-            double expected = (Math.Pow(x, 3) - 1) / (4 * Math.Pow(x, 2));
-            expected = Math.Round(expected, 3);
+            // ожидаемое округлённое значение
+            double y = (Math.Pow(x, 3) - 1) / (4 * Math.Pow(x, 2));
+            y = Math.Round(y, 3);
+            string expected = y.ToString("F3");
 
-            // act
             string path = ds.SaveToFileTextData(x);
 
-            // assert: файл существует
             Assert.IsTrue(File.Exists(path), "Файл не был создан.");
 
-            double actual;
+            string fromFile;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (BinaryReader br = new BinaryReader(fs))
             {
-                actual = br.ReadDouble();
+                fromFile = br.ReadString();
             }
 
-            Assert.AreEqual(expected, actual, 0.0001, "Значение в бинарном файле вычислено неверно.");
+            Assert.AreEqual(expected, fromFile, "Строка в бинарном файле не совпадает с ожидаемой.");
         }
     }
 }
