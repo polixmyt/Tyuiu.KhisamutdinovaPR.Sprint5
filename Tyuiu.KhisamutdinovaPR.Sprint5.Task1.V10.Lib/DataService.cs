@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task1.V10.Lib
@@ -12,10 +13,9 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task1.V10.Lib
             string fileName = "OutPutFileTask1.txt";
             string fullPath = Path.Combine(tempDir, fileName);
 
-            int length = stopValue - startValue + 1;
-            string[] lines = new string[length];
+            StringBuilder sb = new StringBuilder();
 
-            int index = 0;
+            bool firstLine = true;
 
             for (int x = startValue; x <= stopValue; x++)
             {
@@ -36,14 +36,29 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task1.V10.Lib
 
                 fx = Math.Round(fx, 2);
 
-                // каждая строка — только F(x) с двумя знаками
-                lines[index] = fx.ToString("F2");
-                index++;
+                // === КЛЮЧЕВОЙ МОМЕНТ ===
+                // Если значение стало ровно 0 — пишем просто "0"
+                // Иначе пишем с двумя знаками после запятой ("F2")
+                string line;
+                if (Math.Abs(fx) < 1e-9)
+                {
+                    line = "0";
+                }
+                else
+                {
+                    line = fx.ToString("F2");
+                }
+
+                // Добавляем перевод строки ТОЛЬКО между строками, а не после последней
+                if (!firstLine)
+                {
+                    sb.AppendLine();
+                }
+                sb.Append(line);
+                firstLine = false;
             }
 
-            // ВАЖНО: записываем одной строкой без лишнего перевода строки в конце
-            string text = string.Join(Environment.NewLine, lines);
-            File.WriteAllText(fullPath, text);
+            File.WriteAllText(fullPath, sb.ToString());
 
             return fullPath;
         }
