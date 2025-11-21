@@ -1,8 +1,4 @@
-﻿// Author: Хисамутдинова Полина
-// Project: Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21
-// Description: Тест вычисления y = x^3 * cos(x) + 2x из файла.
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Globalization;
 using System.IO;
@@ -14,27 +10,20 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Test
     public class DataServiceTest
     {
         [TestMethod]
-        public void LoadFromDataFile_CalcWith4_68()
+        public void TestFormula()
         {
-            // arrange: создаём временный файл с числом 4,68
-            string tempFile = Path.GetTempFileName();
-
-            double x = 4.68;
-            string xText = x.ToString(CultureInfo.CurrentCulture);
-            File.WriteAllText(tempFile, xText);
+            // создаём временный файл
+            string temp = Path.GetTempFileName();
+            File.WriteAllText(temp, "4.68", CultureInfo.InvariantCulture);
 
             DataService ds = new DataService();
 
-            // ожидаемое значение по формуле
-            double expected = Math.Pow(x, 3) * Math.Cos(x) + 2 * x;
-            expected = Math.Round(expected, 3);   // ≈ 6.041
+            double x = 4.68;
+            double expected = Math.Round(Math.Pow(x, 3) * Math.Cos(x) + 2 * x, 3);
 
-            // act
-            double actual = ds.LoadFromDataFile(tempFile);
+            double actual = ds.LoadFromDataFile(temp);
 
-            // assert
-            Assert.AreEqual(expected, actual, 0.0001,
-                "Результат вычисления по формуле неверен.");
+            Assert.AreEqual(expected, actual);
         }
     }
 }
