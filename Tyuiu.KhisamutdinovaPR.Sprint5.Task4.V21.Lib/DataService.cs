@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Lib
@@ -10,20 +8,41 @@ namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Lib
         public double LoadFromDataFile(string path)
         {
             if (!File.Exists(path))
-                throw new FileNotFoundException("Файл не найден", path);
+            {
+                throw new FileNotFoundException($"Файл не найден: {path}");
+            }
 
-            string text = File.ReadAllText(path).Trim();
+            try
+            {
+                // Чтение содержимого файла
+                string[] lines = File.ReadAllLines(path);
 
-            // читаем X
-            double x = double.Parse(text, CultureInfo.InvariantCulture);
+                double sum = 0;
 
-            // формула по варианту 21
-            double y = Math.Pow(x, 3) * Math.Cos(x) + 2 * x;
+                foreach (string line in lines)
+                {
+                    string trimmedLine = line.Trim();
 
-            // округление
-            y = Math.Round(y, 3);
+                    if (double.TryParse(trimmedLine, NumberStyles.Float, CultureInfo.GetCultureInfo("ru-RU"), out double number))
+                    {
+                        // Вычисление по формуле для текущего числа
+                        double y = Math.Pow(number, 3) * Math.Cos(number) + 2 * number;
 
-            return y;
+                        // Суммируем результат (если требуется вывести сумму)
+                        sum += Math.Round(y, 3);
+                    }
+                    else
+                    {
+                        throw new FormatException($"Строка '{line}' невозможно преобразовать в число.");
+                    }
+                }
+
+                return sum; // Или возвращайте другие вычисления, если это необходимо
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка при обработке файла или вычислении.", ex);
+            }
         }
     }
 }

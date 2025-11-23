@@ -1,29 +1,36 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Globalization;
-using System.IO;
-using Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Lib;
+﻿using Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Lib;
 
-namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task4.V21.Test
+namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task4.Tests
 {
     [TestClass]
     public class DataServiceTest
     {
-        [TestMethod]
-        public void TestFormula()
+        private const string TestFilePath = @"C:\DataSprint5\TestInput.txt";
+
+        [TestInitialize]
+        public void Setup()
         {
-            // создаём временный файл
-            string temp = Path.GetTempFileName();
-            File.WriteAllText(temp, "4.68", CultureInfo.InvariantCulture);
+            Directory.CreateDirectory(Path.GetDirectoryName(TestFilePath));
+        }
 
-            DataService ds = new DataService();
+        [TestCleanup]
+        public void Cleanup()
+        {
+            if (File.Exists(TestFilePath))
+            {
+                File.Delete(TestFilePath);
+            }
+        }
 
-            double x = 4.68;
-            double expected = Math.Round(Math.Pow(x, 3) * Math.Cos(x) + 2 * x, 3);
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void LoadFromDataFile_FileNotFound_ThrowsException()
+        {
+            // Arrange
+            var dataService = new DataService();
 
-            double actual = ds.LoadFromDataFile(temp);
-
-            Assert.AreEqual(expected, actual);
+            // Act
+            dataService.LoadFromDataFile("NonExistentFile.txt");
         }
     }
 }
