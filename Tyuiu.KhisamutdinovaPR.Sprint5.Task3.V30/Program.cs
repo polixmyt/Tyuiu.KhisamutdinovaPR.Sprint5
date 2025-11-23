@@ -1,42 +1,42 @@
-﻿// Author: Хисамутдинова Полина
-// Project: Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
-// Description: Вызов библиотеки, запись в бинарный файл и вывод результата.
-
-using System;
-using System.IO;
-using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
-
+﻿using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
 namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.Title = "Спринт 5 | Таск 3 | Вариант 30";
-
             DataService ds = new DataService();
+
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* Спринт #5                                                               *");
+            Console.WriteLine("* Тема: Работа в С#                                                       *");
+            Console.WriteLine("* Задание #3                                                              *");
+            Console.WriteLine("* Вариант #30                                                             *");
+            Console.WriteLine("* Выполнил: Хисамутдинова ПР | ИИПб-24-2                        *");
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* УСЛОВИЕ:                                                                *");
+            Console.WriteLine("* Дано выражение вычислить его значение при x = 3, результат сохранить    *");
+            Console.WriteLine("* в бинарный файл OutPutFileTask3.bin и вывести на консоль. Округлить до  *");
+            Console.WriteLine("* трёх знаков после запятой.                                              *");
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
+            Console.WriteLine("***************************************************************************");
+
             int x = 3;
+            Console.WriteLine(x);
 
-            // Сохранение значения в бинарный файл
-            string path = ds.SaveToFileTextData(x);
 
-            // Чтение значения из бинарного файла
-            float result;
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (BinaryReader br = new BinaryReader(fs))
-            {
-                result = br.ReadSingle();
-            }
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
+            Console.WriteLine("***************************************************************************");
 
-            Console.WriteLine("Спринт 5 | Таск 3 | Вариант 30");
-            Console.WriteLine("Выражение: y = (x^3 - 1) / (4 * x^2)");
-            Console.WriteLine($"x = {x}");
-            Console.WriteLine("------------------------------------");
-            Console.WriteLine("Путь к бинарному файлу:");
-            Console.WriteLine(path);
-            Console.WriteLine($"Значение y (из файла) = {result:F3}");
-            Console.WriteLine("------------------------------------");
-            Console.WriteLine("Нажмите любую клавишу для выхода...");
+            string res = ds.SaveToFileTextData(x);
+            Console.WriteLine("Файл: " + res);
+
+
+            double wt = Math.Round((Math.Pow(x, 3) - 1) / (4 * Math.Pow(x, 2)), 3);
+            Console.WriteLine(wt);
+
             Console.ReadKey();
         }
     }
