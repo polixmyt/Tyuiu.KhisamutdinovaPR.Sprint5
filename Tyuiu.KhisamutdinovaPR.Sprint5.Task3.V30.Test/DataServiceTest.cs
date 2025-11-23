@@ -1,19 +1,20 @@
-﻿using System.IO;
-using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
+﻿using Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Lib;
 namespace Tyuiu.KhisamutdinovaPR.Sprint5.Task3.V30.Test
 {
     [TestClass]
     public class DataServiceTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ValidSaveToFileTextData()
         {
-            string path = Path.Combine(Convert.ToString(Path.GetTempPath()), "OutPutFileTask3.txt");
+            DataService ds = new DataService();
+
+            string path = Path.GetTempFileName();
 
             FileInfo fileInfo = new FileInfo(path);
-            bool fileExist = fileInfo.Exists;
-            bool wait = true;
-            Assert.AreEqual(true, fileExist);
+            bool fileExists = fileInfo.Exists;
+
+            Assert.AreEqual(true, fileExists);
         }
     }
 }
